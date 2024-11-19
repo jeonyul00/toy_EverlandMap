@@ -13,6 +13,9 @@
 		ABA2D2252CEC5012006107A5 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = ABA2D2242CEC5012006107A5 /* Base */; };
 		ABA2D2272CEC5013006107A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABA2D2262CEC5013006107A5 /* Assets.xcassets */; };
 		ABA2D22A2CEC5013006107A5 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = ABA2D2292CEC5013006107A5 /* Base */; };
+		ABA2D2362CEC6154006107A5 /* Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA2D2352CEC6154006107A5 /* Property.swift */; };
+		ABA2D2382CEC61BA006107A5 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA2D2372CEC61BA006107A5 /* Category.swift */; };
+		ABA2D23A2CEC64DC006107A5 /* EverlandAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA2D2392CEC64DC006107A5 /* EverlandAnnotation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,9 @@
 		ABA2D22B2CEC5013006107A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ABA2D2322CEC50CC006107A5 /* 강남역.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "강남역.gpx"; sourceTree = "<group>"; };
 		ABA2D2332CEC50EB006107A5 /* 에버랜드.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "에버랜드.gpx"; sourceTree = "<group>"; };
+		ABA2D2352CEC6154006107A5 /* Property.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Property.swift; sourceTree = "<group>"; };
+		ABA2D2372CEC61BA006107A5 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		ABA2D2392CEC64DC006107A5 /* EverlandAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EverlandAnnotation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +64,7 @@
 		ABA2D21C2CEC5012006107A5 /* EverlandMap */ = {
 			isa = PBXGroup;
 			children = (
+				ABA2D2342CEC6149006107A5 /* Model */,
 				ABA2D2312CEC50B9006107A5 /* Location */,
 				ABA2D21D2CEC5012006107A5 /* AppDelegate.swift */,
 				ABA2D21F2CEC5012006107A5 /* SceneDelegate.swift */,
@@ -77,6 +84,16 @@
 				ABA2D2332CEC50EB006107A5 /* 에버랜드.gpx */,
 			);
 			path = Location;
+			sourceTree = "<group>";
+		};
+		ABA2D2342CEC6149006107A5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				ABA2D2352CEC6154006107A5 /* Property.swift */,
+				ABA2D2372CEC61BA006107A5 /* Category.swift */,
+				ABA2D2392CEC64DC006107A5 /* EverlandAnnotation.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,7 +168,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				ABA2D2222CEC5012006107A5 /* ViewController.swift in Sources */,
+				ABA2D23A2CEC64DC006107A5 /* EverlandAnnotation.swift in Sources */,
+				ABA2D2382CEC61BA006107A5 /* Category.swift in Sources */,
 				ABA2D21E2CEC5012006107A5 /* AppDelegate.swift in Sources */,
+				ABA2D2362CEC6154006107A5 /* Property.swift in Sources */,
 				ABA2D2202CEC5012006107A5 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
