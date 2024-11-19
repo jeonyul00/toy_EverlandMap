@@ -26,22 +26,43 @@ class ViewController: UIViewController {
         Task {
             geoJsonObjects = try await fetchMap()
             
-            for obj in geoJsonObjects {
-                guard let feature = obj as? MKGeoJSONFeature else { continue }
-                let jsonDecoder = JSONDecoder()
-                guard let pdata = feature.properties, let properties = try? jsonDecoder.decode(Property.self, from: pdata) else { continue }
-                guard let category = Category(rawValue: properties.category) else { continue }
-                if let pointAnnotation = feature.geometry.first as? MKPointAnnotation {
-                    if category == .attraction {
-                        let annotation = EverlandAnnotation(coordinate: pointAnnotation.coordinate, properties: properties)
-                        mapView.addAnnotation(annotation)
-                        
-                    }
+        }
+    }
+    
+    @IBAction func showAttractions(_ sender: Any) {
+        show(category: .attraction)
+    }
+    
+    @IBAction func showPerformances(_ sender: Any) {
+        show(category: .performance)
+    }
+    
+    @IBAction func showAmentity(_ sender: Any) {
+        show(category: .amenity)
+    }
+    
+    @IBAction func showGiftshop(_ sender: Any) {
+        show(category: .giftshop)
+    }
+    
+    @IBAction func showRestaurant(_ sender: Any) {
+        show(category: .restaurant)
+    }
+    
+    func show(category:Category) {
+        mapView.removeAnnotations(mapView.annotations)
+        for obj in geoJsonObjects {
+            guard let feature = obj as? MKGeoJSONFeature else { continue }
+            let jsonDecoder = JSONDecoder()
+            guard let pdata = feature.properties, let properties = try? jsonDecoder.decode(Property.self, from: pdata) else { continue }
+            guard let objCategory = Category(rawValue: properties.category) else { continue }
+            if let pointAnnotation = feature.geometry.first as? MKPointAnnotation {
+                if category == objCategory {
+                    let annotation = EverlandAnnotation(coordinate: pointAnnotation.coordinate, properties: properties)
+                    mapView.addAnnotation(annotation)
                 }
             }
         }
-        
-        
     }
     
     func fetchMap() async throws -> [MKGeoJSONObject] {
@@ -62,6 +83,7 @@ extension ViewController: MKMapViewDelegate {
         if let everlandAnnotation = annotation as? EverlandAnnotation {
             let marker = mapView.dequeueReusableAnnotationView(withIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier, for: annotation) as! MKMarkerAnnotationView
             marker.glyphImage = everlandAnnotation.image
+            marker.animatesWhenAdded = true
             return marker
         }
         return nil
