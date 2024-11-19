@@ -12,6 +12,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var menuContainerView: UIView!
+    @IBOutlet weak var facilityButton: UIButton!
     var geoJsonObjects = [MKGeoJSONObject]()
     
     override func viewDidLoad() {
@@ -27,6 +28,20 @@ class ViewController: UIViewController {
             geoJsonObjects = try await fetchMap()
             
         }
+        let list = [Category.aed, .restroom, .firstaid, .locker, .atm, .ticketing, .babyfedding, .missingchild, .charge, .publicphone, .smoking]
+        
+        var actions = [UIAction]()
+        
+        for category in list {
+            let action = UIAction(title: category.rawValue.capitalized,image: UIImage(named: category.rawValue)) { _ in
+                self.show(category: category)
+            }
+            actions.append(action)
+        }
+        let menu = UIMenu(children: actions)
+        facilityButton.menu = menu
+        facilityButton.showsMenuAsPrimaryAction = true
+        
     }
     
     @IBAction func showAttractions(_ sender: Any) {
@@ -84,6 +99,16 @@ extension ViewController: MKMapViewDelegate {
             let marker = mapView.dequeueReusableAnnotationView(withIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier, for: annotation) as! MKMarkerAnnotationView
             marker.glyphImage = everlandAnnotation.image
             marker.animatesWhenAdded = true
+            marker.tintColor = nil
+            marker.glyphTintColor = nil
+            if everlandAnnotation.category == .restroom {
+                marker.markerTintColor = .black
+                if everlandAnnotation.properties.accessibleToDisabled ?? false {
+                    marker.glyphTintColor = .systemGreen
+                } else {
+                    marker.glyphTintColor = .white
+                }
+            }
             return marker
         }
         return nil

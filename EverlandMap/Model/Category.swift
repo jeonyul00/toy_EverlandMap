@@ -19,6 +19,7 @@ enum Category:String {
     case firstaid
     case atm
     case locker
+    case charge
     case ticketing
     case babyfedding
     case missingchild
