@@ -7,6 +7,7 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
 class ViewController: UIViewController {
     
@@ -14,9 +15,15 @@ class ViewController: UIViewController {
     @IBOutlet weak var menuContainerView: UIView!
     @IBOutlet weak var facilityButton: UIButton!
     var geoJsonObjects = [MKGeoJSONObject]()
+    lazy var locationManager: CLLocationManager = { [weak self] in
+        let m = CLLocationManager()
+        m.delegate = self
+        return m
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        _ = locationManager
         mapView.delegate = self
         menuContainerView.layer.cornerRadius = 20
         menuContainerView.clipsToBounds = true
@@ -41,6 +48,38 @@ class ViewController: UIViewController {
         let menu = UIMenu(children: actions)
         facilityButton.menu = menu
         facilityButton.showsMenuAsPrimaryAction = true
+        
+    }
+    
+    @IBAction func showRoute(_ sender: Any) {
+        let start = mapView.userLocation.coordinate
+        let dest = CLLocationCoordinate2D(latitude: 37.294259, longitude: 127.2030509)
+        let startPlacemark = MKPlacemark(coordinate: start)
+        let destPlacemark = MKPlacemark(coordinate: dest)
+        let startMapItem = MKMapItem(placemark: startPlacemark)
+        let destMapItem = MKMapItem(placemark: destPlacemark)
+        
+        // 경로 계산
+        let request = MKDirections.Request()
+        request.source = startMapItem
+        request.destination = destMapItem
+        request.transportType = .automobile
+        
+        let directions = MKDirections(request: request)
+        directions.calculate { response, error in
+            guard let response else {
+                if let error {
+                    print(error)
+                }
+                return
+            }
+            let route = response.routes[0]
+            self.mapView.addOverlay(route.polyline, level: .aboveRoads)
+            
+            let region = MKCoordinateRegion(route.polyline.boundingMapRect)
+            self.mapView.setRegion(region, animated: true)
+        }
+
         
     }
     
@@ -163,6 +202,21 @@ extension ViewController: MKMapViewDelegate {
         default:
             return MKOverlayRenderer()
         }
+    }
+}
+
+extension ViewController:CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .notDetermined:
+            manager.requestWhenInUseAuthorization()
+        default:
+            break
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
+        print(error)
     }
 }
 
